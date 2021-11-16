@@ -1,24 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import './App.scss';
+import Album from './features/album/Album';
+import Gallery from './features/gallery/Gallery';
+import { useAlbum } from './hooks/useAlbum';
+import { AlbumItem } from './model';
 
 function App() {
+
+  const [album, setAlbum] = useState<AlbumItem>({} as any);
+  const [fetchAlbum] = useAlbum(setAlbum);
+
+  const onSelectAlbum = (id: string) => {
+    fetchAlbum(id);
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Gallery onSelectAlbum={(id) => onSelectAlbum(id)}/>
+      <Album album={album}/>
     </div>
   );
 }
